@@ -1,0 +1,227 @@
+{
+  "site": {
+    "name": "NRO256 portal",
+    "baseUrl": "https://nro256.github.io/portal/",
+    "author": "NRO / Antigravity",
+    "githubUrl": "https://github.com/NRO256",
+    "xUrl": "https://x.com/NRO256"
+  },
+  "categories": [
+    {
+      "id": "file-backup",
+      "label": "ファイル・バックアップ"
+    },
+    {
+      "id": "system",
+      "label": "システム管理"
+    },
+    {
+      "id": "network",
+      "label": "ネットワーク診断"
+    }
+  ],
+  "apps": [
+    {
+      "id": "p2f",
+      "name": "P2F (2-Pane Filer)",
+      "shortName": "p2f",
+      "version": "v0.7.0",
+      "category": "file-backup",
+      "categoryLabel": "ファイル・バックアップ",
+      "uiType": "GUI",
+      "os": "Windows 10 / 11 (64bit)",
+      "binaryName": "p2f.exe",
+      "binarySize": "約 534 KB",
+      "requiresAdmin": false,
+      "permissionLabel": "標準ユーザーで動作",
+      "summary": "スクリーンリーダーでの読み上げとキーボード操作を最優先に設計した、超軽量・高速なツインペインファイルマネージャーです。",
+      "highlights": [
+        "NVDA・PC-Talker・ナレーター向けの標準詳細リストとロービジョン配慮のアクティブペイン強調",
+        "ZIP・7z・TAR 書庫を通常フォルダと同様に閲覧・編集・展開できる仮想フォルダ統合",
+        "バックグラウンド転送、履歴移動、ドライブ容量表示、フォルダ絞り込みに対応"
+      ],
+      "keywords": [
+        "ファイラー",
+        "ファイルマネージャー",
+        "2画面",
+        "ZIP",
+        "7z",
+        "アーカイブ",
+        "スクリーンリーダー"
+      ],
+      "repoUrl": "https://github.com/NRO256/p2f",
+      "releaseUrl": "https://github.com/NRO256/p2f/releases/latest",
+      "issuesUrl": "https://github.com/NRO256/p2f/issues",
+      "screenshot": "",
+      "screenshotAlt": "",
+      "order": 1
+    },
+    {
+      "id": "appcenter",
+      "name": "WinGet アプリセンター",
+      "shortName": "WinGet App Center",
+      "version": "v0.13.0",
+      "category": "system",
+      "categoryLabel": "システム管理",
+      "uiType": "GUI",
+      "os": "Windows 10 / 11 (64bit)",
+      "binaryName": "appcenter.exe",
+      "binarySize": "約 376 KB",
+      "requiresAdmin": false,
+      "permissionLabel": "標準ユーザー（導入ソフトによりUAC）",
+      "summary": "Windows 標準パッケージ管理機能「winget」を、マウスでもキーボードでも分かりやすく操作できるポータブル GUI ツールです。",
+      "highlights": [
+        "アプリ検索・導入・更新・一覧エクスポートを1画面から直感的に操作可能",
+        "状態別の行カラー強調、列ソート、進捗バーと2分割ステータスバーを搭載",
+        "ID・wingetコマンドコピー、保存先変更、Per-Monitor v2 高DPIに対応"
+      ],
+      "keywords": [
+        "winget",
+        "パッケージ管理",
+        "アプリ管理",
+        "インストーラー",
+        "アップデート"
+      ],
+      "repoUrl": "https://github.com/NRO256/appcenter",
+      "releaseUrl": "https://github.com/NRO256/appcenter/releases/latest",
+      "issuesUrl": "https://github.com/NRO256/appcenter/issues",
+      "screenshot": "",
+      "screenshotAlt": "",
+      "order": 2
+    },
+    {
+      "id": "robocopy-gui",
+      "name": "Robocopy-GUI",
+      "shortName": "Robocopy-GUI",
+      "version": "v0.2.0",
+      "category": "file-backup",
+      "categoryLabel": "ファイル・バックアップ",
+      "uiType": "GUI",
+      "os": "Windows 11 (64bit)",
+      "binaryName": "Robocopy-GUI.exe",
+      "binarySize": "約 476 KB",
+      "requiresAdmin": false,
+      "permissionLabel": "標準ユーザー（一部オプションは管理者）",
+      "summary": "Windows 標準の高速・高信頼コピーコマンド「robocopy.exe」を、安全チェックとキュー機能付きで操作できる GUI ラッパーです。",
+      "highlights": [
+        "同一パス・親子包含関係・空コピー元でのミラー指定を事前に安全ブロック",
+        "プリセット管理と複数ジョブを順次実行できるバックアップキューを搭載",
+        "ドラッグ＆ドロップ指定、空き容量表示、除外設定、ログ自動保存に対応"
+      ],
+      "keywords": [
+        "robocopy",
+        "コピー",
+        "同期",
+        "ミラーリング",
+        "バックアップ"
+      ],
+      "repoUrl": "https://github.com/NRO256/Robocopy-GUI",
+      "releaseUrl": "https://github.com/NRO256/Robocopy-GUI/releases/latest",
+      "issuesUrl": "https://github.com/NRO256/Robocopy-GUI/issues",
+      "screenshot": "",
+      "screenshotAlt": "",
+      "order": 3
+    },
+    {
+      "id": "wib-gui",
+      "name": "WindowsImageBackup GUI",
+      "shortName": "WIB-GUI",
+      "version": "v0.2.0",
+      "category": "file-backup",
+      "categoryLabel": "ファイル・バックアップ",
+      "uiType": "GUI",
+      "os": "Windows 10 / 11 (64bit)",
+      "binaryName": "WIB-GUI.exe",
+      "binarySize": "約 326 KB",
+      "requiresAdmin": true,
+      "permissionLabel": "管理者権限必須（起動時UAC昇格）",
+      "summary": "Windows 標準のシステムイメージ作成コマンド「wbadmin.exe」を、初心者やスクリーンリーダー利用者でも安全に扱えるポータブル GUI です。",
+      "highlights": [
+        "ドライブ選択・保存先チェック・空き容量不足の事前警告とコマンド確認を実行",
+        "ローカルおよびネットワーク共有の既存イメージ取得と復元手順・印刷出力に対応",
+        "実行中のスリープ抑止、進捗表示、ログ保存、安全な中断機能を搭載"
+      ],
+      "keywords": [
+        "wbadmin",
+        "システムイメージ",
+        "バックアップ",
+        "復元",
+        "WindowsImageBackup"
+      ],
+      "repoUrl": "https://github.com/NRO256/WIB-GUI",
+      "releaseUrl": "https://github.com/NRO256/WIB-GUI/releases/latest",
+      "issuesUrl": "https://github.com/NRO256/WIB-GUI/issues",
+      "screenshot": "",
+      "screenshotAlt": "",
+      "order": 4
+    },
+    {
+      "id": "netchecker",
+      "name": "NetChecker Portable",
+      "shortName": "NetChecker",
+      "version": "v0.5.1",
+      "category": "network",
+      "categoryLabel": "ネットワーク診断",
+      "uiType": "CLI",
+      "os": "Windows 10 / 11 (64bit)",
+      "binaryName": "NetChecker.exe",
+      "binarySize": "約 181 KB",
+      "requiresAdmin": false,
+      "permissionLabel": "管理者権限不要",
+      "summary": "「ネットに繋がらない」原因を端末・ルーター・回線・DNS・HTTPS の5段階で自動切り分けする、外部依存ゼロの診断ツールです。",
+      "highlights": [
+        "ダブルクリックするだけで診断を実行し、結果と対処手順を日本語で自動保存",
+        "端末設定を書き換えず完全ローカルで動作し、管理者権限も不要",
+        "JSON 出力や終了コード返却を備え、CLI や保守スクリプト連携にも対応"
+      ],
+      "keywords": [
+        "ネットワーク",
+        "通信診断",
+        "DNS",
+        "Ping",
+        "HTTPS",
+        "トラブルシューティング"
+      ],
+      "repoUrl": "https://github.com/NRO256/netchecker",
+      "releaseUrl": "https://github.com/NRO256/netchecker/releases/latest",
+      "issuesUrl": "https://github.com/NRO256/netchecker/issues",
+      "screenshot": "",
+      "screenshotAlt": "",
+      "order": 5
+    },
+    {
+      "id": "wifi_analyzer",
+      "name": "ポータブルCUI Wi-Fiアナライザー",
+      "shortName": "wifi_analyzer",
+      "version": "v1.5.2",
+      "category": "network",
+      "categoryLabel": "ネットワーク診断",
+      "uiType": "CLI",
+      "os": "Windows 10 (1809以降) / 11 (64bit)",
+      "binaryName": "wifi_analyzer.exe",
+      "binarySize": "約 264 KB",
+      "requiresAdmin": false,
+      "permissionLabel": "管理者権限不要",
+      "summary": "周囲の Wi-Fi 電波の混雑状況やチャネル重複を調査し、通信途切れの原因確認や設定見直しに役立つ軽量ポータブル診断ツールです。",
+      "highlights": [
+        "ダブルクリック実行だけで周辺のアクセスポイントと混雑度を即座に可視化",
+        "ルーター設定変更前後の効果比較（--diff）や CSV 出力に対応",
+        "外部通信や PC 設定変更を行わず、標準ユーザー権限のまま安全に計測"
+      ],
+      "keywords": [
+        "Wi-Fi",
+        "無線LAN",
+        "チャネル",
+        "電波干渉",
+        "CUI",
+        "CSV"
+      ],
+      "repoUrl": "https://github.com/NRO256/wifi_analyzer",
+      "releaseUrl": "https://github.com/NRO256/wifi_analyzer/releases/latest",
+      "issuesUrl": "https://github.com/NRO256/wifi_analyzer/issues",
+      "screenshot": "",
+      "screenshotAlt": "",
+      "order": 6
+    }
+  ]
+}

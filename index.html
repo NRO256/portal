@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NRO256 portal | Windows向け軽量ポータブル自作ソフトポータル</title>
+  <meta name="description" content="NRO / Antigravity が公開している Windows 10・11 向けの軽量・ポータブルな自作フリーウェア・オープンソースソフトウェアの一覧と最新ダウンロード窓口です。">
+  <meta name="theme-color" content="#1e5288">
+  <link rel="canonical" href="https://nro256.github.io/portal/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="NRO256 portal">
+  <meta property="og:description" content="レジストリ不使用・単一実行ファイル構成の Windows 向け自作ソフトウェアを一覧で紹介するポータルサイトです。">
+  <meta property="og:url" content="https://nro256.github.io/portal/">
+  <meta property="og:site_name" content="NRO256 portal">
+  <link rel="icon" type="image/svg+xml" href="./images/favicon.svg">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/app.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main-content">メインコンテンツへ移動</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#top">
+        <img class="brand__mark" src="./images/favicon.svg" alt="" width="32" height="32">
+        <span class="brand__name">NRO256 portal</span>
+      </a>
+      <nav class="site-nav" aria-label="ページ内および外部リンク">
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="#software">ソフトウェア一覧</a></li>
+          <li><a class="site-nav__link" href="#guide">ご利用案内</a></li>
+          <li><a class="site-nav__link" href="#about">開発者情報</a></li>
+          <li>
+            <a class="site-nav__link site-nav__link--external" href="https://github.com/NRO256" target="_blank" rel="noopener noreferrer" aria-label="GitHub - NRO256 のプロフィール（新しいタブで開く）">GitHub</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="container hero__grid">
+        <div>
+          <p class="hero__eyebrow">Windows 10 / 11 ポータブルフリーウェア</p>
+          <h1 id="hero-heading" class="hero__title">軽量で安全な自作ソフトを、ひとつの入口から</h1>
+          <p class="hero__desc">
+            NRO / Antigravity が開発・公開している Windows 向けの自作ソフトウェアをまとめたポータルサイトです。インストーラーやレジストリを使わず、単一実行ファイルですぐに動かせる実用ツールを提供しています。
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#software">ソフトウェア一覧を見る</a>
+            <a class="btn btn--secondary" href="#guide">導入手順と安全ガイド</a>
+          </div>
+        </div>
+
+        <aside class="spec-panel" aria-label="ポータル掲載ソフトの共通仕様">
+          <h2 class="spec-panel__title">共通設計方針</h2>
+          <dl class="spec-panel__list">
+            <div class="spec-panel__item">
+              <dt class="spec-panel__label">公開中ソフトウェア</dt>
+              <dd class="spec-panel__value"><span id="total-app-count"><!-- COUNT:START -->6<!-- COUNT:END --></span> 本</dd>
+            </div>
+            <div class="spec-panel__item">
+              <dt class="spec-panel__label">実行ファイル規模</dt>
+              <dd class="spec-panel__value">181〜534 KB</dd>
+            </div>
+            <div class="spec-panel__item">
+              <dt class="spec-panel__label">レジストリ書込</dt>
+              <dd class="spec-panel__value">0（完全ポータブル）</dd>
+            </div>
+            <div class="spec-panel__item">
+              <dt class="spec-panel__label">ライセンス</dt>
+              <dd class="spec-panel__value">MIT License</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section id="software" class="section section--surface" aria-labelledby="software-heading">
+      <div class="container">
+        <div class="section__head">
+          <h2 id="software-heading">ソフトウェア一覧</h2>
+          <p class="section__lead">
+            各ソフトのダウンロードリンクは、常に最新版の公開ページ（GitHub Releases）へ接続します。
+          </p>
+        </div>
+
+        <div class="toolbar">
+          <div class="filter-group" role="group" aria-label="カテゴリ絞り込み">
+            <!-- FILTERS:START -->
+            <button type="button" class="filter-btn" data-category="all" aria-pressed="true">すべて <span class="filter-btn__count">(6)</span></button>
+            <button type="button" class="filter-btn" data-category="file-backup" aria-pressed="false">ファイル・バックアップ <span class="filter-btn__count">(3)</span></button>
+            <button type="button" class="filter-btn" data-category="system" aria-pressed="false">システム管理 <span class="filter-btn__count">(1)</span></button>
+            <button type="button" class="filter-btn" data-category="network" aria-pressed="false">ネットワーク診断 <span class="filter-btn__count">(2)</span></button>
+            <!-- FILTERS:END -->
+          </div>
+
+          <div class="search-box">
+            <label class="search-box__label" for="app-search">キーワードで検索</label>
+            <div class="search-box__controls">
+              <input id="app-search" class="search-box__input" type="search" placeholder="例: winget, Wi-Fi, バックアップ" autocomplete="off">
+              <button id="search-clear" class="search-box__clear" type="button" disabled>クリア</button>
+            </div>
+          </div>
+        </div>
+
+        <p id="catalog-status" class="catalog-status" role="status" aria-live="polite">
+          全 6 件を表示しています
+        </p>
+
+        <div id="app-grid" class="app-grid">
+          <!-- APPS:START -->
+        <article class="app-card" data-category="file-backup" data-search="p2f P2F (2-Pane Filer) p2f ファイル・バックアップ GUI Windows 10 / 11 (64bit) p2f.exe スクリーンリーダーでの読み上げとキーボード操作を最優先に設計した、超軽量・高速なツインペインファイルマネージャーです。 NVDA・PC-Talker・ナレーター向けの標準詳細リストとロービジョン配慮のアクティブペイン強調 ZIP・7z・TAR 書庫を通常フォルダと同様に閲覧・編集・展開できる仮想フォルダ統合 バックグラウンド転送、履歴移動、ドライブ容量表示、フォルダ絞り込みに対応 ファイラー ファイルマネージャー 2画面 ZIP 7z アーカイブ スクリーンリーダー">
+          <div class="app-card__meta">
+            <span class="app-card__category">ファイル・バックアップ</span>
+            <div class="app-card__badges">
+              <span class="badge badge--gui">GUI</span>
+              <span class="version-tag">v0.7.0</span>
+            </div>
+          </div>
+          <header class="app-card__header">
+            <h3 class="app-card__title">P2F (2-Pane Filer)</h3>
+            
+          </header>
+          <p class="app-card__summary">スクリーンリーダーでの読み上げとキーボード操作を最優先に設計した、超軽量・高速なツインペインファイルマネージャーです。</p>
+          <ul class="app-card__highlights">
+            <li>NVDA・PC-Talker・ナレーター向けの標準詳細リストとロービジョン配慮のアクティブペイン強調</li>
+            <li>ZIP・7z・TAR 書庫を通常フォルダと同様に閲覧・編集・展開できる仮想フォルダ統合</li>
+            <li>バックグラウンド転送、履歴移動、ドライブ容量表示、フォルダ絞り込みに対応</li>
+          </ul>
+          <dl class="app-card__specs">
+            <div class="spec-row">
+              <dt>対象OS</dt>
+              <dd>Windows 10 / 11 (64bit)</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行ファイル</dt>
+              <dd><code class="mono">p2f.exe</code>（約 534 KB）</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行権限</dt>
+              <dd>標準ユーザーで動作</dd>
+            </div>
+          </dl>
+          <div class="app-card__actions">
+            <a class="btn btn--primary" href="https://github.com/NRO256/p2f/releases/latest" target="_blank" rel="noopener noreferrer" aria-label="ダウンロード - P2F (2-Pane Filer) の最新リリース（GitHub・新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>ダウンロード</span>
+            </a>
+            <a class="btn btn--secondary" href="https://github.com/NRO256/p2f" target="_blank" rel="noopener noreferrer" aria-label="GitHub - P2F (2-Pane Filer) のリポジトリと説明書（新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a class="btn btn--ghost" href="https://github.com/NRO256/p2f/issues" target="_blank" rel="noopener noreferrer" aria-label="不具合報告 - P2F (2-Pane Filer) のGitHub Issues（新しいタブで開く）">
+              <span>不具合報告</span>
+            </a>
+          </div>
+        </article>
+        <article class="app-card" data-category="system" data-search="appcenter WinGet アプリセンター WinGet App Center システム管理 GUI Windows 10 / 11 (64bit) appcenter.exe Windows 標準パッケージ管理機能「winget」を、マウスでもキーボードでも分かりやすく操作できるポータブル GUI ツールです。 アプリ検索・導入・更新・一覧エクスポートを1画面から直感的に操作可能 状態別の行カラー強調、列ソート、進捗バーと2分割ステータスバーを搭載 ID・wingetコマンドコピー、保存先変更、Per-Monitor v2 高DPIに対応 winget パッケージ管理 アプリ管理 インストーラー アップデート">
+          <div class="app-card__meta">
+            <span class="app-card__category">システム管理</span>
+            <div class="app-card__badges">
+              <span class="badge badge--gui">GUI</span>
+              <span class="version-tag">v0.13.0</span>
+            </div>
+          </div>
+          <header class="app-card__header">
+            <h3 class="app-card__title">WinGet アプリセンター</h3>
+            <span class="app-card__subname">WinGet App Center</span>
+          </header>
+          <p class="app-card__summary">Windows 標準パッケージ管理機能「winget」を、マウスでもキーボードでも分かりやすく操作できるポータブル GUI ツールです。</p>
+          <ul class="app-card__highlights">
+            <li>アプリ検索・導入・更新・一覧エクスポートを1画面から直感的に操作可能</li>
+            <li>状態別の行カラー強調、列ソート、進捗バーと2分割ステータスバーを搭載</li>
+            <li>ID・wingetコマンドコピー、保存先変更、Per-Monitor v2 高DPIに対応</li>
+          </ul>
+          <dl class="app-card__specs">
+            <div class="spec-row">
+              <dt>対象OS</dt>
+              <dd>Windows 10 / 11 (64bit)</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行ファイル</dt>
+              <dd><code class="mono">appcenter.exe</code>（約 376 KB）</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行権限</dt>
+              <dd>標準ユーザー（導入ソフトによりUAC）</dd>
+            </div>
+          </dl>
+          <div class="app-card__actions">
+            <a class="btn btn--primary" href="https://github.com/NRO256/appcenter/releases/latest" target="_blank" rel="noopener noreferrer" aria-label="ダウンロード - WinGet アプリセンター の最新リリース（GitHub・新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>ダウンロード</span>
+            </a>
+            <a class="btn btn--secondary" href="https://github.com/NRO256/appcenter" target="_blank" rel="noopener noreferrer" aria-label="GitHub - WinGet アプリセンター のリポジトリと説明書（新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a class="btn btn--ghost" href="https://github.com/NRO256/appcenter/issues" target="_blank" rel="noopener noreferrer" aria-label="不具合報告 - WinGet アプリセンター のGitHub Issues（新しいタブで開く）">
+              <span>不具合報告</span>
+            </a>
+          </div>
+        </article>
+        <article class="app-card" data-category="file-backup" data-search="robocopy-gui Robocopy-GUI Robocopy-GUI ファイル・バックアップ GUI Windows 11 (64bit) Robocopy-GUI.exe Windows 標準の高速・高信頼コピーコマンド「robocopy.exe」を、安全チェックとキュー機能付きで操作できる GUI ラッパーです。 同一パス・親子包含関係・空コピー元でのミラー指定を事前に安全ブロック プリセット管理と複数ジョブを順次実行できるバックアップキューを搭載 ドラッグ＆ドロップ指定、空き容量表示、除外設定、ログ自動保存に対応 robocopy コピー 同期 ミラーリング バックアップ">
+          <div class="app-card__meta">
+            <span class="app-card__category">ファイル・バックアップ</span>
+            <div class="app-card__badges">
+              <span class="badge badge--gui">GUI</span>
+              <span class="version-tag">v0.2.0</span>
+            </div>
+          </div>
+          <header class="app-card__header">
+            <h3 class="app-card__title">Robocopy-GUI</h3>
+            
+          </header>
+          <p class="app-card__summary">Windows 標準の高速・高信頼コピーコマンド「robocopy.exe」を、安全チェックとキュー機能付きで操作できる GUI ラッパーです。</p>
+          <ul class="app-card__highlights">
+            <li>同一パス・親子包含関係・空コピー元でのミラー指定を事前に安全ブロック</li>
+            <li>プリセット管理と複数ジョブを順次実行できるバックアップキューを搭載</li>
+            <li>ドラッグ＆ドロップ指定、空き容量表示、除外設定、ログ自動保存に対応</li>
+          </ul>
+          <dl class="app-card__specs">
+            <div class="spec-row">
+              <dt>対象OS</dt>
+              <dd>Windows 11 (64bit)</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行ファイル</dt>
+              <dd><code class="mono">Robocopy-GUI.exe</code>（約 476 KB）</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行権限</dt>
+              <dd>標準ユーザー（一部オプションは管理者）</dd>
+            </div>
+          </dl>
+          <div class="app-card__actions">
+            <a class="btn btn--primary" href="https://github.com/NRO256/Robocopy-GUI/releases/latest" target="_blank" rel="noopener noreferrer" aria-label="ダウンロード - Robocopy-GUI の最新リリース（GitHub・新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>ダウンロード</span>
+            </a>
+            <a class="btn btn--secondary" href="https://github.com/NRO256/Robocopy-GUI" target="_blank" rel="noopener noreferrer" aria-label="GitHub - Robocopy-GUI のリポジトリと説明書（新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a class="btn btn--ghost" href="https://github.com/NRO256/Robocopy-GUI/issues" target="_blank" rel="noopener noreferrer" aria-label="不具合報告 - Robocopy-GUI のGitHub Issues（新しいタブで開く）">
+              <span>不具合報告</span>
+            </a>
+          </div>
+        </article>
+        <article class="app-card" data-category="file-backup" data-search="wib-gui WindowsImageBackup GUI WIB-GUI ファイル・バックアップ GUI Windows 10 / 11 (64bit) WIB-GUI.exe Windows 標準のシステムイメージ作成コマンド「wbadmin.exe」を、初心者やスクリーンリーダー利用者でも安全に扱えるポータブル GUI です。 ドライブ選択・保存先チェック・空き容量不足の事前警告とコマンド確認を実行 ローカルおよびネットワーク共有の既存イメージ取得と復元手順・印刷出力に対応 実行中のスリープ抑止、進捗表示、ログ保存、安全な中断機能を搭載 wbadmin システムイメージ バックアップ 復元 WindowsImageBackup">
+          <div class="app-card__meta">
+            <span class="app-card__category">ファイル・バックアップ</span>
+            <div class="app-card__badges">
+              <span class="badge badge--gui">GUI</span>
+              <span class="version-tag">v0.2.0</span>
+            </div>
+          </div>
+          <header class="app-card__header">
+            <h3 class="app-card__title">WindowsImageBackup GUI</h3>
+            <span class="app-card__subname">WIB-GUI</span>
+          </header>
+          <p class="app-card__summary">Windows 標準のシステムイメージ作成コマンド「wbadmin.exe」を、初心者やスクリーンリーダー利用者でも安全に扱えるポータブル GUI です。</p>
+          <ul class="app-card__highlights">
+            <li>ドライブ選択・保存先チェック・空き容量不足の事前警告とコマンド確認を実行</li>
+            <li>ローカルおよびネットワーク共有の既存イメージ取得と復元手順・印刷出力に対応</li>
+            <li>実行中のスリープ抑止、進捗表示、ログ保存、安全な中断機能を搭載</li>
+          </ul>
+          <dl class="app-card__specs">
+            <div class="spec-row">
+              <dt>対象OS</dt>
+              <dd>Windows 10 / 11 (64bit)</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行ファイル</dt>
+              <dd><code class="mono">WIB-GUI.exe</code>（約 326 KB）</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行権限</dt>
+              <dd>管理者権限必須（起動時UAC昇格）</dd>
+            </div>
+          </dl>
+          <div class="app-card__actions">
+            <a class="btn btn--primary" href="https://github.com/NRO256/WIB-GUI/releases/latest" target="_blank" rel="noopener noreferrer" aria-label="ダウンロード - WindowsImageBackup GUI の最新リリース（GitHub・新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>ダウンロード</span>
+            </a>
+            <a class="btn btn--secondary" href="https://github.com/NRO256/WIB-GUI" target="_blank" rel="noopener noreferrer" aria-label="GitHub - WindowsImageBackup GUI のリポジトリと説明書（新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a class="btn btn--ghost" href="https://github.com/NRO256/WIB-GUI/issues" target="_blank" rel="noopener noreferrer" aria-label="不具合報告 - WindowsImageBackup GUI のGitHub Issues（新しいタブで開く）">
+              <span>不具合報告</span>
+            </a>
+          </div>
+        </article>
+        <article class="app-card" data-category="network" data-search="netchecker NetChecker Portable NetChecker ネットワーク診断 CLI Windows 10 / 11 (64bit) NetChecker.exe 「ネットに繋がらない」原因を端末・ルーター・回線・DNS・HTTPS の5段階で自動切り分けする、外部依存ゼロの診断ツールです。 ダブルクリックするだけで診断を実行し、結果と対処手順を日本語で自動保存 端末設定を書き換えず完全ローカルで動作し、管理者権限も不要 JSON 出力や終了コード返却を備え、CLI や保守スクリプト連携にも対応 ネットワーク 通信診断 DNS Ping HTTPS トラブルシューティング">
+          <div class="app-card__meta">
+            <span class="app-card__category">ネットワーク診断</span>
+            <div class="app-card__badges">
+              <span class="badge badge--cli">CLI</span>
+              <span class="version-tag">v0.5.1</span>
+            </div>
+          </div>
+          <header class="app-card__header">
+            <h3 class="app-card__title">NetChecker Portable</h3>
+            
+          </header>
+          <p class="app-card__summary">「ネットに繋がらない」原因を端末・ルーター・回線・DNS・HTTPS の5段階で自動切り分けする、外部依存ゼロの診断ツールです。</p>
+          <ul class="app-card__highlights">
+            <li>ダブルクリックするだけで診断を実行し、結果と対処手順を日本語で自動保存</li>
+            <li>端末設定を書き換えず完全ローカルで動作し、管理者権限も不要</li>
+            <li>JSON 出力や終了コード返却を備え、CLI や保守スクリプト連携にも対応</li>
+          </ul>
+          <dl class="app-card__specs">
+            <div class="spec-row">
+              <dt>対象OS</dt>
+              <dd>Windows 10 / 11 (64bit)</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行ファイル</dt>
+              <dd><code class="mono">NetChecker.exe</code>（約 181 KB）</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行権限</dt>
+              <dd>管理者権限不要</dd>
+            </div>
+          </dl>
+          <div class="app-card__actions">
+            <a class="btn btn--primary" href="https://github.com/NRO256/netchecker/releases/latest" target="_blank" rel="noopener noreferrer" aria-label="ダウンロード - NetChecker Portable の最新リリース（GitHub・新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>ダウンロード</span>
+            </a>
+            <a class="btn btn--secondary" href="https://github.com/NRO256/netchecker" target="_blank" rel="noopener noreferrer" aria-label="GitHub - NetChecker Portable のリポジトリと説明書（新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a class="btn btn--ghost" href="https://github.com/NRO256/netchecker/issues" target="_blank" rel="noopener noreferrer" aria-label="不具合報告 - NetChecker Portable のGitHub Issues（新しいタブで開く）">
+              <span>不具合報告</span>
+            </a>
+          </div>
+        </article>
+        <article class="app-card" data-category="network" data-search="wifi_analyzer ポータブルCUI Wi-Fiアナライザー wifi_analyzer ネットワーク診断 CLI Windows 10 (1809以降) / 11 (64bit) wifi_analyzer.exe 周囲の Wi-Fi 電波の混雑状況やチャネル重複を調査し、通信途切れの原因確認や設定見直しに役立つ軽量ポータブル診断ツールです。 ダブルクリック実行だけで周辺のアクセスポイントと混雑度を即座に可視化 ルーター設定変更前後の効果比較（--diff）や CSV 出力に対応 外部通信や PC 設定変更を行わず、標準ユーザー権限のまま安全に計測 Wi-Fi 無線LAN チャネル 電波干渉 CUI CSV">
+          <div class="app-card__meta">
+            <span class="app-card__category">ネットワーク診断</span>
+            <div class="app-card__badges">
+              <span class="badge badge--cli">CLI</span>
+              <span class="version-tag">v1.5.2</span>
+            </div>
+          </div>
+          <header class="app-card__header">
+            <h3 class="app-card__title">ポータブルCUI Wi-Fiアナライザー</h3>
+            <span class="app-card__subname">wifi_analyzer</span>
+          </header>
+          <p class="app-card__summary">周囲の Wi-Fi 電波の混雑状況やチャネル重複を調査し、通信途切れの原因確認や設定見直しに役立つ軽量ポータブル診断ツールです。</p>
+          <ul class="app-card__highlights">
+            <li>ダブルクリック実行だけで周辺のアクセスポイントと混雑度を即座に可視化</li>
+            <li>ルーター設定変更前後の効果比較（--diff）や CSV 出力に対応</li>
+            <li>外部通信や PC 設定変更を行わず、標準ユーザー権限のまま安全に計測</li>
+          </ul>
+          <dl class="app-card__specs">
+            <div class="spec-row">
+              <dt>対象OS</dt>
+              <dd>Windows 10 (1809以降) / 11 (64bit)</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行ファイル</dt>
+              <dd><code class="mono">wifi_analyzer.exe</code>（約 264 KB）</dd>
+            </div>
+            <div class="spec-row">
+              <dt>実行権限</dt>
+              <dd>管理者権限不要</dd>
+            </div>
+          </dl>
+          <div class="app-card__actions">
+            <a class="btn btn--primary" href="https://github.com/NRO256/wifi_analyzer/releases/latest" target="_blank" rel="noopener noreferrer" aria-label="ダウンロード - ポータブルCUI Wi-Fiアナライザー の最新リリース（GitHub・新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>ダウンロード</span>
+            </a>
+            <a class="btn btn--secondary" href="https://github.com/NRO256/wifi_analyzer" target="_blank" rel="noopener noreferrer" aria-label="GitHub - ポータブルCUI Wi-Fiアナライザー のリポジトリと説明書（新しいタブで開く）">
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a class="btn btn--ghost" href="https://github.com/NRO256/wifi_analyzer/issues" target="_blank" rel="noopener noreferrer" aria-label="不具合報告 - ポータブルCUI Wi-Fiアナライザー のGitHub Issues（新しいタブで開く）">
+              <span>不具合報告</span>
+            </a>
+          </div>
+        </article>
+        <!-- APPS:END -->
+        </div>
+
+        <div id="empty-state" class="empty-state" hidden>
+          <h3 class="empty-state__title">条件に一致するソフトウェアが見つかりませんでした</h3>
+          <p class="empty-state__desc">
+            別のキーワードをお試しいただくか、絞り込み条件をリセットして全一覧へお戻りください。
+          </p>
+          <button id="filter-reset" class="btn btn--secondary" type="button">絞り込みをリセット</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="guide" class="section" aria-labelledby="guide-heading">
+      <div class="container">
+        <div class="section__head">
+          <h2 id="guide-heading">ご利用案内と安全性について</h2>
+          <p class="section__lead">
+            ダウンロードから日常利用・削除まで、すべてのソフトで共通してご確認いただきたい事項です。
+          </p>
+        </div>
+
+        <div class="guide-grid">
+          <article class="guide-card">
+            <h3 class="guide-card__title">導入・更新・削除の方法</h3>
+            <ul class="guide-card__list">
+              <li>各カードの「ダウンロード」から GitHub Releases を開き、Assets 欄の ZIP ファイルをダウンロードして任意のフォルダへ展開してください。</li>
+              <li>更新時は新しい ZIP の実行ファイルで上書きするだけです。設定ファイルを引き継げます。</li>
+              <li>アンインストール時は展開したフォルダごと削除するだけで完了し、Windows レジストリにゴミを残しません。</li>
+            </ul>
+          </article>
+
+          <article class="guide-card guide-card--notice">
+            <h3 class="guide-card__title">Windows SmartScreen 警告について</h3>
+            <ul class="guide-card__list">
+              <li>個人開発のオープンソースソフトのため商用コード署名は付属していません。初回起動時に「WindowsによってPCが保護されました」という青い画面が表示される場合があります。</li>
+              <li>この場合は画面内の「詳細情報」をクリックし、内容をご確認のうえで「実行」を選択して起動してください。</li>
+              <li>すべての公開ソフトは GitHub 上でソースコードを公開しており、ビルド構成も透明化しています。</li>
+            </ul>
+          </article>
+
+          <article class="guide-card">
+            <h3 class="guide-card__title">ライセンス・動作条件・免責</h3>
+            <ul class="guide-card__list">
+              <li>掲載ソフトはいずれも MIT License のフリーウェア・オープンソースソフトウェアとして公開しています。</li>
+              <li>対応 OS や管理者権限（UAC 昇格）の要否はソフトごとに異なりますので、各カードの仕様欄をご確認のうえご利用ください。</li>
+              <li>無保証（AS IS）で提供されます。システム操作系ツールのご利用前には必要に応じてバックアップをおすすめします。</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section section--surface" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="section__head">
+          <h2 id="about-heading">開発者情報・お問い合わせ</h2>
+          <p class="section__lead">
+            作成者情報と、開発状況・不具合報告の窓口です。
+          </p>
+        </div>
+
+        <div class="about-box">
+          <div class="about-box__text">
+            <h3>NRO / Antigravity</h3>
+            <p>
+              日々の Windows 運用やトラブル切り分け、アクセシビリティを重視した作業効率化のなかで生まれた実用ツールを公開しています。シンプルで軽快な動作と、スクリーンリーダーおよびキーボード操作での使いやすさを大切にしています。
+            </p>
+            <p>
+              各ソフトウェアの不具合報告や機能要望は、対象ソフトのカード内「不具合報告」リンク（各リポジトリの GitHub Issues）から受け付けています。更新のお知らせや開発メモは GitHub と X にて発信しています。
+            </p>
+          </div>
+
+          <div class="about-box__links">
+            <a class="link-card" href="https://github.com/NRO256" target="_blank" rel="noopener noreferrer" aria-label="GitHub プロフィール NRO256 を開く（新しいタブで開く）">
+              <span>
+                <span class="link-card__title">GitHub プロフィール</span>
+                <span class="link-card__sub">github.com/NRO256</span>
+              </span>
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 3h6v6"/>
+                <path d="M10 14 21 3"/>
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              </svg>
+            </a>
+
+            <a class="link-card" href="https://x.com/NRO256" target="_blank" rel="noopener noreferrer" aria-label="X アカウント @NRO256 を開く（新しいタブで開く）">
+              <span>
+                <span class="link-card__title">X（旧 Twitter）</span>
+                <span class="link-card__sub">x.com/NRO256</span>
+              </span>
+              <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 3h6v6"/>
+                <path d="M10 14 21 3"/>
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>Copyright (c) 2026 NRO / Antigravity ・ MIT License</p>
+      <a class="site-footer__top" href="#top">ページの先頭へ戻る</a>
+    </div>
+  </footer>
+</body>
+</html>

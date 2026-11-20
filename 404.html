@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ページが見つかりません | NRO256 portal</title>
+  <style>
+    :root {
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-block-size: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background-color: #ffffff;
+      color: #162032;
+      font-family:
+        "BIZ UDPGothic", "BIZ UDPゴシック", "Yu Gothic UI", "Hiragino Kaku Gothic ProN",
+        "Meiryo", system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    main {
+      inline-size: min(100%, 560px);
+      padding: clamp(24px, 5vw, 40px);
+      background-color: #f7f9fc;
+      border: 1px solid #dce4ee;
+      border-radius: 12px;
+    }
+
+    .code {
+      display: inline-block;
+      margin: 0 0 12px;
+      padding: 2px 10px;
+      border-radius: 6px;
+      background-color: #e8f0fa;
+      color: #163e68;
+      font-family: "BIZ UDGothic", "Consolas", ui-monospace, monospace;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.5rem, 3vw, 1.875rem);
+      line-height: 1.35;
+    }
+
+    p {
+      margin: 0 0 24px;
+      color: #475569;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-block-size: 48px;
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .btn--primary {
+      background-color: #1e5288;
+      color: #ffffff;
+      border-color: #1e5288;
+    }
+
+    .btn--primary:hover {
+      background-color: #163e68;
+      border-color: #163e68;
+    }
+
+    .btn--secondary {
+      background-color: #ffffff;
+      color: #163e68;
+      border-color: #b8c7da;
+    }
+
+    .btn--secondary:hover {
+      background-color: #eef3f9;
+      border-color: #1e5288;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid #1d4ed8;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="code">404 Not Found</p>
+    <h1>お探しのページが見つかりません</h1>
+    <p>
+      URLが変更されたか、存在しないアドレスにアクセスされた可能性があります。NRO256 portal のトップページへお戻りください。
+    </p>
+    <div class="actions">
+      <a class="btn btn--primary" href="/portal/">NRO256 portal トップページへ戻る</a>
+      <a class="btn btn--secondary" href="https://github.com/NRO256" target="_blank" rel="noopener noreferrer">GitHub プロフィール（新しいタブで開く）</a>
+    </div>
+  </main>
+</body>
+</html>
