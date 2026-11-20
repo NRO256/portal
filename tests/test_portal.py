@@ -1,4 +1,4 @@
-"""Tests for NRO256 portal catalog generation, HTML accessibility, and security."""
+"""Tests for NRO256 portal catalog generation, Zero-JS structure, accessibility, and security."""
 
 from __future__ import annotations
 
@@ -30,6 +30,7 @@ class HtmlStructureInspector(HTMLParser):
         self.ids: set[str] = set()
         self.landmarks: set[str] = set()
         self.skip_links: list[str] = []
+        self.internal_anchors: list[str] = []
         self.external_links: list[dict[str, str]] = []
         self.card_action_labels: list[tuple[str, str]] = []
         self.local_refs: list[str] = []
@@ -69,12 +70,14 @@ class HtmlStructureInspector(HTMLParser):
         if tag == "a":
             href = attr_map.get("href", "")
             classes = attr_map.get("class", "").split()
+            if href.startswith("#") and len(href) > 1:
+                self.internal_anchors.append(href[1:])
             if "skip-link" in classes and href.startswith("#"):
                 self.skip_links.append(href[1:])
             if attr_map.get("target") == "_blank":
                 self.external_links.append(attr_map)
             if attr_map.get("target") == "_blank" and any(
-                c in classes for c in ("btn--primary", "btn--secondary", "btn--ghost")
+                c in classes for c in ("btn--download", "action-link")
             ):
                 self._in_card_action_link = True
                 self._current_link_aria = attr_map.get("aria-label", "")
@@ -107,7 +110,7 @@ class SubpathPortalHandler(http.server.SimpleHTTPRequestHandler):
 
 
 class PortalTests(unittest.TestCase):
-    """Verify sync script safety, HTML accessibility, and HTTP serving."""
+    """Verify sync script safety, Zero-JS layout, HTML accessibility, and HTTP serving."""
 
     def setUp(self) -> None:
         self.catalog = json.loads((ROOT_DIR / "data" / "apps.json").read_text(encoding="utf-8"))
@@ -115,6 +118,13 @@ class PortalTests(unittest.TestCase):
 
     def test_sync_check_passes_on_repository(self) -> None:
         self.assertEqual(sync_apps.main(["--check"]), 0)
+
+    def test_zero_js_and_search_abolished(self) -> None:
+        self.assertFalse((ROOT_DIR / "js" / "app.js").exists())
+        self.assertFalse((ROOT_DIR / "js").exists())
+        self.assertNotIn("<script", self.index_html.lower())
+        self.assertNotIn("app-search", self.index_html)
+        self.assertNotIn("data-search", self.index_html)
 
     def test_html_escape_and_scheme_validation(self) -> None:
         sample = copy.deepcopy(self.catalog)
@@ -138,6 +148,11 @@ class PortalTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             sync_apps.validate_catalog(bad_admin)
 
+        bad_size = copy.deepcopy(self.catalog)
+        bad_size["apps"][0]["binarySize"] = "unknown"
+        with self.assertRaises(ValueError):
+            sync_apps.validate_catalog(bad_size)
+
     def test_screenshot_conditional_rendering(self) -> None:
         default_rendered = sync_apps.render_apps_html(self.catalog)
         self.assertNotIn("<figure", default_rendered)
@@ -146,7 +161,7 @@ class PortalTests(unittest.TestCase):
         with_shot["apps"][0]["screenshot"] = "images/p2f.png"
         with_shot["apps"][0]["screenshotAlt"] = "P2F のメイン画面"
         rendered = sync_apps.render_apps_html(with_shot)
-        self.assertIn('<figure class="app-card__media">', rendered)
+        self.assertIn('<figure class="app-entry__media">', rendered)
         self.assertIn('src="./images/p2f.png"', rendered)
         self.assertIn('alt="P2F のメイン画面"', rendered)
 
@@ -168,6 +183,8 @@ class PortalTests(unittest.TestCase):
         self.assertTrue(inspector.skip_links)
         for target_id in inspector.skip_links:
             self.assertIn(target_id, inspector.ids)
+        for anchor_id in inspector.internal_anchors:
+            self.assertIn(anchor_id, inspector.ids, f"Broken internal anchor: #{anchor_id}")
 
         self.assertEqual(inspector.canonical_href, "https://nro256.github.io/portal/")
         self.assertEqual(inspector.og_url, "https://nro256.github.io/portal/")
@@ -199,7 +216,6 @@ class PortalTests(unittest.TestCase):
             "index.html",
             "404.html",
             "css/style.css",
-            "js/app.js",
             "data/apps.json",
             "scripts/sync_apps.py",
         ]
@@ -223,7 +239,6 @@ class PortalTests(unittest.TestCase):
                 "/",
                 "/portal/",
                 "/portal/css/style.css",
-                "/portal/js/app.js",
                 "/portal/data/apps.json",
                 "/portal/images/favicon.svg",
                 "/portal/404.html",

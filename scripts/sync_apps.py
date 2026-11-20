@@ -7,7 +7,6 @@ import html
 import json
 import re
 import sys
-from collections import Counter
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
@@ -34,9 +33,11 @@ REQUIRED_APP_FIELDS = (
 
 URL_FIELDS = ("repoUrl", "releaseUrl", "issuesUrl")
 
+SIZE_KB_PATTERN = re.compile(r"(?:約\s*)?(\d[\d,]*)\s*KB\b", re.IGNORECASE)
+
 ICON_DOWNLOAD = (
     '<svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" '
-    'fill="none" stroke="currentColor" stroke-width="1.75" '
+    'fill="none" stroke="currentColor" stroke-width="1.5" '
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
     '<path d="M12 3v12"/>'
     '<path d="m7 10 5 5 5-5"/>'
@@ -46,7 +47,7 @@ ICON_DOWNLOAD = (
 
 ICON_EXTERNAL = (
     '<svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" '
-    'fill="none" stroke="currentColor" stroke-width="1.75" '
+    'fill="none" stroke="currentColor" stroke-width="1.5" '
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
     '<path d="M15 3h6v6"/>'
     '<path d="M10 14 21 3"/>'
@@ -58,6 +59,17 @@ ICON_EXTERNAL = (
 def esc(value: Any) -> str:
     """Escape HTML text and attribute quotes safely."""
     return html.escape(str(value), quote=True)
+
+
+def parse_size_kb(size_str: str) -> int:
+    """Extract a positive integer KB value from strings like '534 KB'."""
+    match = SIZE_KB_PATTERN.search(size_str.strip())
+    if not match:
+        raise ValueError(f"Invalid binarySize format (expected '<number> KB'): {size_str!r}")
+    value = int(match.group(1).replace(",", ""))
+    if value <= 0:
+        raise ValueError(f"binarySize must be positive: {size_str!r}")
+    return value
 
 
 def validate_https_url(url: str, field_name: str, app_id: str) -> None:
@@ -81,7 +93,7 @@ def validate_screenshot_path(path_str: str, alt_text: str, app_id: str) -> None:
 
 
 def validate_catalog(data: dict[str, Any]) -> None:
-    """Validate catalog structure, categories, URLs, and app metadata."""
+    """Validate catalog structure, categories, sizes, URLs, and app metadata."""
     categories = data.get("categories")
     apps = data.get("apps")
     if not isinstance(categories, list) or not categories:
@@ -114,6 +126,8 @@ def validate_catalog(data: dict[str, Any]) -> None:
         if not isinstance(app.get("requiresAdmin"), bool):
             raise TypeError(f"requiresAdmin must be boolean in {app_id}")
 
+        parse_size_kb(str(app["binarySize"]))
+
         highlights = app.get("highlights")
         if not isinstance(highlights, list) or not highlights:
             raise ValueError(f"highlights must be a non-empty list in {app_id}")
@@ -128,72 +142,127 @@ def validate_catalog(data: dict[str, Any]) -> None:
         )
 
 
-def sorted_apps(data: dict[str, Any]) -> list[dict[str, Any]]:
-    """Return apps ordered deterministically by order then name."""
-    return sorted(
-        data["apps"],
-        key=lambda item: (int(item.get("order", 9999)), str(item.get("name", ""))),
+def ordered_catalog_groups(
+    data: dict[str, Any],
+) -> list[tuple[dict[str, Any], list[tuple[int, dict[str, Any]]]]]:
+    """Group apps by declared categories and assign unified 1-based catalog numbers."""
+    by_category: dict[str, list[dict[str, Any]]] = {
+        str(cat["id"]): [] for cat in data["categories"]
+    }
+    for app in data["apps"]:
+        by_category[str(app["category"])].append(app)
+
+    groups: list[tuple[dict[str, Any], list[tuple[int, dict[str, Any]]]]] = []
+    index = 1
+    for cat in data["categories"]:
+        cat_id = str(cat["id"])
+        items = sorted(
+            by_category.get(cat_id, []),
+            key=lambda item: (int(item.get("order", 9999)), str(item.get("name", ""))),
+        )
+        if not items:
+            continue
+        numbered_items: list[tuple[int, dict[str, Any]]] = []
+        for app in items:
+            numbered_items.append((index, app))
+            index += 1
+        groups.append((cat, numbered_items))
+    return groups
+
+
+def render_total_size_text(data: dict[str, Any]) -> str:
+    """Return formatted sum of all binary sizes in KB."""
+    total_kb = sum(parse_size_kb(str(app["binarySize"])) for app in data["apps"])
+    return f"{total_kb:,} KB"
+
+
+def render_manifest_html(data: dict[str, Any]) -> str:
+    """Render the hero portable directory manifest rows and footer."""
+    groups = ordered_catalog_groups(data)
+    ordered_apps = [pair for _, pairs in groups for pair in pairs]
+    sizes = [parse_size_kb(str(app["binarySize"])) for _, app in ordered_apps]
+    max_kb = max(sizes)
+    total_kb = sum(sizes)
+    gui_count = sum(1 for _, app in ordered_apps if app["uiType"] == "GUI")
+    cli_count = sum(1 for _, app in ordered_apps if app["uiType"] == "CLI")
+
+    rows: list[str] = []
+    for idx, app in ordered_apps:
+        app_id = esc(app["id"])
+        app_name = esc(app["name"])
+        binary_name = esc(app["binaryName"])
+        kb = parse_size_kb(str(app["binarySize"]))
+        pct = max(12, round(kb / max_kb * 100))
+        ui_kind = "gui" if app["uiType"] == "GUI" else "cli"
+        rows.append(
+            f'            <a class="manifest__row" href="#app-{app_id}">\n'
+            f'              <span class="manifest__index">{idx:02d}</span>\n'
+            '              <span class="manifest__file">'
+            f'<span class="manifest__bin">{binary_name}</span>'
+            f'<span class="manifest__name">{app_name}</span>'
+            "</span>\n"
+            '              <span class="manifest__meter" aria-hidden="true">'
+            f'<span class="manifest__bar manifest__bar--{ui_kind}" style="--bar: {pct}%"></span>'
+            "</span>\n"
+            f'              <span class="manifest__size">{kb} KB</span>\n'
+            "            </a>"
+        )
+
+    rows_html = "\n".join(rows)
+    footer_html = (
+        '          <div class="manifest__footer">\n'
+        '            <div class="manifest__legend">\n'
+        '              <span class="manifest__legend-item">'
+        '<span class="manifest__dot manifest__dot--gui" aria-hidden="true"></span>'
+        f"<span>GUI {gui_count}</span></span>\n"
+        '              <span class="manifest__legend-item">'
+        '<span class="manifest__dot manifest__dot--cli" aria-hidden="true"></span>'
+        f"<span>CLI {cli_count}</span></span>\n"
+        "            </div>\n"
+        f'            <span class="manifest__total">計 {total_kb:,} KB · レジストリ書込 0</span>\n'
+        "          </div>"
+    )
+    return (
+        '          <div class="manifest__rows">\n'
+        f"{rows_html}\n"
+        "          </div>\n"
+        f"{footer_html}"
     )
 
 
-def render_filters_html(data: dict[str, Any]) -> str:
-    """Render category filter buttons with live counts."""
-    apps = data["apps"]
-    counts = Counter(app["category"] for app in apps)
-    lines = [
-        (
-            '<button type="button" class="filter-btn" data-category="all" aria-pressed="true">'
-            f'すべて <span class="filter-btn__count">({len(apps)})</span>'
-            "</button>"
-        )
-    ]
-    for cat in data["categories"]:
+def render_category_nav_html(data: dict[str, Any]) -> str:
+    """Render static anchor links for jumping to each software category."""
+    links: list[str] = []
+    for cat, pairs in ordered_catalog_groups(data):
         cat_id = esc(cat["id"])
         cat_label = esc(cat["label"])
-        cat_count = counts.get(cat["id"], 0)
-        lines.append(
-            f'<button type="button" class="filter-btn" data-category="{cat_id}" aria-pressed="false">'
-            f'{cat_label} <span class="filter-btn__count">({cat_count})</span>'
-            "</button>"
+        links.append(
+            f'            <a class="cat-jump__link" href="#cat-{cat_id}">'
+            f'{cat_label} <span class="cat-jump__count">{len(pairs)}</span></a>'
         )
-    return "\n            ".join(lines)
+    return "\n".join(links)
 
 
-def build_search_blob(app: dict[str, Any]) -> str:
-    """Build plain search index string for client-side NFKC filtering."""
-    parts = [
-        str(app["id"]),
-        str(app["name"]),
-        str(app.get("shortName", "")),
-        str(app["categoryLabel"]),
-        str(app["uiType"]),
-        str(app["os"]),
-        str(app["binaryName"]),
-        str(app["summary"]),
-        " ".join(str(x) for x in app.get("highlights", [])),
-        " ".join(str(x) for x in app.get("keywords", [])),
-    ]
-    return " ".join(part.strip() for part in parts if part and part.strip())
-
-
-def render_single_card(app: dict[str, Any]) -> str:
-    """Render a single software specification card."""
+def render_single_entry(idx: int, app: dict[str, Any]) -> str:
+    """Render a single two-column software specification entry."""
+    app_id = esc(app["id"])
     app_name = esc(app["name"])
     short_name = str(app.get("shortName", "")).strip()
     version = esc(app["version"])
-    category = esc(app["category"])
-    category_label = esc(app["categoryLabel"])
     ui_type = esc(app["uiType"])
-    ui_class = "badge--gui" if app["uiType"] == "GUI" else "badge--cli"
+    ui_kind = "gui" if app["uiType"] == "GUI" else "cli"
     os_text = esc(app["os"])
     binary_name = esc(app["binaryName"])
-    binary_size = esc(app["binarySize"])
+    kb = parse_size_kb(str(app["binarySize"]))
     permission_label = esc(app["permissionLabel"])
     summary = esc(app["summary"])
-    search_blob = esc(build_search_blob(app))
     repo_url = esc(app["repoUrl"])
     release_url = esc(app["releaseUrl"])
     issues_url = esc(app["issuesUrl"])
+
+    subtitle_html = ""
+    if short_name and short_name.lower() not in str(app["name"]).lower():
+        subtitle_html = f'\n                <p class="app-entry__subname">{esc(short_name)}</p>'
 
     media_html = ""
     screenshot = str(app.get("screenshot", "")).strip()
@@ -201,16 +270,12 @@ def render_single_card(app: dict[str, Any]) -> str:
         rel_src = esc(f"./{screenshot.lstrip('./')}")
         alt_text = esc(app.get("screenshotAlt", ""))
         media_html = (
-            '\n          <figure class="app-card__media">'
+            '\n              <figure class="app-entry__media">'
             f'<img src="{rel_src}" alt="{alt_text}" loading="lazy" decoding="async" width="640" height="400">'
             "</figure>"
         )
 
-    subtitle_html = ""
-    if short_name and short_name.lower() not in str(app["name"]).lower():
-        subtitle_html = f'<span class="app-card__subname">{esc(short_name)}</span>'
-
-    highlights_html = "\n            ".join(
+    highlights_html = "\n                ".join(
         f"<li>{esc(item)}</li>" for item in app["highlights"]
     )
 
@@ -218,60 +283,74 @@ def render_single_card(app: dict[str, Any]) -> str:
     repo_aria = esc(f"GitHub - {app['name']} のリポジトリと説明書（新しいタブで開く）")
     issues_aria = esc(f"不具合報告 - {app['name']} のGitHub Issues（新しいタブで開く）")
 
-    return f"""        <article class="app-card" data-category="{category}" data-search="{search_blob}">{media_html}
-          <div class="app-card__meta">
-            <span class="app-card__category">{category_label}</span>
-            <div class="app-card__badges">
-              <span class="badge {ui_class}">{ui_type}</span>
-              <span class="version-tag">{version}</span>
-            </div>
-          </div>
-          <header class="app-card__header">
-            <h3 class="app-card__title">{app_name}</h3>
-            {subtitle_html}
-          </header>
-          <p class="app-card__summary">{summary}</p>
-          <ul class="app-card__highlights">
-            {highlights_html}
-          </ul>
-          <dl class="app-card__specs">
-            <div class="spec-row">
-              <dt>対象OS</dt>
-              <dd>{os_text}</dd>
-            </div>
-            <div class="spec-row">
-              <dt>実行ファイル</dt>
-              <dd><code class="mono">{binary_name}</code>（{binary_size}）</dd>
-            </div>
-            <div class="spec-row">
-              <dt>実行権限</dt>
-              <dd>{permission_label}</dd>
-            </div>
-          </dl>
-          <div class="app-card__actions">
-            <a class="btn btn--primary" href="{release_url}" target="_blank" rel="noopener noreferrer" aria-label="{dl_aria}">
-              {ICON_DOWNLOAD}
-              <span>ダウンロード</span>
-            </a>
-            <a class="btn btn--secondary" href="{repo_url}" target="_blank" rel="noopener noreferrer" aria-label="{repo_aria}">
-              {ICON_EXTERNAL}
-              <span>GitHub</span>
-            </a>
-            <a class="btn btn--ghost" href="{issues_url}" target="_blank" rel="noopener noreferrer" aria-label="{issues_aria}">
-              <span>不具合報告</span>
-            </a>
-          </div>
-        </article>"""
+    return f"""            <article class="app-entry" id="app-{app_id}">
+              <div class="app-entry__identity">
+                <div class="app-entry__meta">
+                  <span class="app-entry__index">{idx:02d}</span>
+                  <span class="app-entry__type app-entry__type--{ui_kind}">{ui_type}</span>
+                  <span class="app-entry__version">{version}</span>
+                </div>
+                <h4 class="app-entry__title">{app_name}</h4>{subtitle_html}{media_html}
+                <dl class="app-entry__specs">
+                  <div class="spec-row">
+                    <dt>ファイル</dt>
+                    <dd><code class="mono">{binary_name}</code><span class="spec-size">{kb} KB</span></dd>
+                  </div>
+                  <div class="spec-row">
+                    <dt>対象OS</dt>
+                    <dd>{os_text}</dd>
+                  </div>
+                  <div class="spec-row">
+                    <dt>権限</dt>
+                    <dd>{permission_label}</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="app-entry__body">
+                <p class="app-entry__summary">{summary}</p>
+                <ul class="app-entry__highlights">
+                {highlights_html}
+                </ul>
+                <div class="app-entry__actions">
+                  <a class="btn btn--download" href="{release_url}" target="_blank" rel="noopener noreferrer" aria-label="{dl_aria}">
+                    {ICON_DOWNLOAD}
+                    <span>ダウンロード</span>
+                  </a>
+                  <a class="action-link" href="{repo_url}" target="_blank" rel="noopener noreferrer" aria-label="{repo_aria}">
+                    <span>GitHub</span>
+                    {ICON_EXTERNAL}
+                  </a>
+                  <a class="action-link" href="{issues_url}" target="_blank" rel="noopener noreferrer" aria-label="{issues_aria}">
+                    <span>不具合報告</span>
+                  </a>
+                </div>
+              </div>
+            </article>"""
 
 
 def render_apps_html(data: dict[str, Any]) -> str:
-    """Render all software cards in deterministic order."""
-    cards = [render_single_card(app) for app in sorted_apps(data)]
-    return "\n".join(cards)
+    """Render all software specification groups in deterministic category order."""
+    sections: list[str] = []
+    for cat, pairs in ordered_catalog_groups(data):
+        cat_id = esc(cat["id"])
+        cat_label = esc(cat["label"])
+        entries_html = "\n".join(render_single_entry(idx, app) for idx, app in pairs)
+        sections.append(
+            f'          <section class="catalog-group" id="cat-{cat_id}" aria-labelledby="cat-heading-{cat_id}">\n'
+            '            <div class="catalog-group__head">\n'
+            f'              <h3 id="cat-heading-{cat_id}" class="catalog-group__title">{cat_label}</h3>\n'
+            f'              <span class="catalog-group__count">{len(pairs)}本</span>\n'
+            "            </div>\n"
+            '            <div class="catalog-group__list">\n'
+            f"{entries_html}\n"
+            "            </div>\n"
+            "          </section>"
+        )
+    return "\n".join(sections)
 
 
 def replace_marker_block(text: str, marker: str, replacement: str, inline: bool = False) -> str:
-    """Replace content between <!-- MARKER:START --> and <!-- MARKER:END -->."""
+    """Replace all content blocks between <!-- MARKER:START --> and <!-- MARKER:END -->."""
     pattern = re.compile(
         rf"(<!--\s*{re.escape(marker)}:START\s*-->)(.*?)(<!--\s*{re.escape(marker)}:END\s*-->)",
         re.DOTALL,
@@ -282,22 +361,29 @@ def replace_marker_block(text: str, marker: str, replacement: str, inline: bool 
     def _repl(match: re.Match[str]) -> str:
         if inline:
             return f"{match.group(1)}{replacement}{match.group(3)}"
-        return f"{match.group(1)}\n            {replacement}\n            {match.group(3)}"
+        line_start = text.rfind("\n", 0, match.start()) + 1
+        indent = ""
+        for ch in text[line_start : match.start()]:
+            if ch in (" ", "\t"):
+                indent += ch
+            else:
+                break
+        return f"{match.group(1)}\n{replacement}\n{indent}{match.group(3)}"
 
-    if marker == "APPS":
-        def _repl_apps(match: re.Match[str]) -> str:
-            return f"{match.group(1)}\n{replacement}\n        {match.group(3)}"
-
-        return pattern.sub(_repl_apps, text, count=1)
-
-    return pattern.sub(_repl, text, count=1)
+    return pattern.sub(_repl, text)
 
 
 def sync_html_text(html_text: str, data: dict[str, Any]) -> str:
     """Return synchronized index.html text for the given catalog dictionary."""
     validate_catalog(data)
     updated = replace_marker_block(html_text, "COUNT", str(len(data["apps"])), inline=True)
-    updated = replace_marker_block(updated, "FILTERS", render_filters_html(data), inline=False)
+    updated = replace_marker_block(
+        updated, "TOTAL_SIZE", render_total_size_text(data), inline=True
+    )
+    updated = replace_marker_block(updated, "MANIFEST", render_manifest_html(data), inline=False)
+    updated = replace_marker_block(
+        updated, "CATEGORY_NAV", render_category_nav_html(data), inline=False
+    )
     updated = replace_marker_block(updated, "APPS", render_apps_html(data), inline=False)
     return updated
 
