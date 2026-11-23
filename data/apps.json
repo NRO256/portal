@@ -25,20 +25,20 @@
       "id": "p2f",
       "name": "P2F (2-Pane Filer)",
       "shortName": "p2f",
-      "version": "v0.7.0",
+      "version": "v0.8.0",
       "category": "file-backup",
       "categoryLabel": "ファイル・バックアップ",
       "uiType": "GUI",
       "os": "Windows 10 / 11 (64bit)",
       "binaryName": "p2f.exe",
-      "binarySize": "534 KB",
+      "binarySize": "887 KB",
       "requiresAdmin": false,
       "permissionLabel": "標準ユーザーで動作",
       "summary": "スクリーンリーダーでの読み上げとキーボード操作を最優先に設計した、超軽量・高速なツインペインファイルマネージャーです。",
       "highlights": [
-        "NVDA・PC-Talker・ナレーター向けの標準詳細リストとロービジョン配慮のアクティブペイン強調",
+        "NVDA・PC-Talker・ナレーター向け UI Automation 読み上げ通知とロービジョン配慮のアクティブペイン強調",
         "ZIP・7z・TAR 書庫を通常フォルダと同様に閲覧・編集・展開できる仮想フォルダ統合",
-        "バックグラウンド転送、履歴移動、ドライブ容量表示、フォルダ絞り込みに対応"
+        "CRT 静的リンク単一 exe・Per-Monitor V2 高 DPI、左右独立ソート、F5/F6 実行前確認・履歴移動に対応"
       ],
       "keywords": [
         "ファイラー",
