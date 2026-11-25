@@ -194,7 +194,7 @@ class PortalTests(unittest.TestCase):
             self.assertIn("noopener", rel_tokens)
             self.assertIn("noreferrer", rel_tokens)
 
-        self.assertEqual(len(inspector.card_action_labels), 18)
+        self.assertEqual(len(inspector.card_action_labels), 21)
         aria_labels = [aria for _, aria in inspector.card_action_labels]
         self.assertEqual(len(aria_labels), len(set(aria_labels)), "Duplicate card link aria-label")
         for visible, aria in inspector.card_action_labels:

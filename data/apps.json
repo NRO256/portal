@@ -222,6 +222,40 @@
       "screenshot": "",
       "screenshotAlt": "",
       "order": 6
+    },
+    {
+      "id": "zerohop",
+      "name": "ZeroHop",
+      "shortName": "ZeroHop",
+      "version": "v0.4.0",
+      "category": "network",
+      "categoryLabel": "ネットワーク診断",
+      "uiType": "GUI",
+      "os": "Windows 11 (64bit)",
+      "binaryName": "ZeroHop.exe",
+      "binarySize": "1,547 KB",
+      "requiresAdmin": false,
+      "permissionLabel": "管理者権限不要（初回のみFW許可推奨）",
+      "summary": "履歴をディスクに残さず、Argon2id + ChaCha20-Poly1305 でエンドツーエンド暗号化する Windows 11 向けポータブル P2P LAN メッセンジャーです。",
+      "highlights": [
+        "会話履歴をディスクに保存せず、終了時やログアウト時にメモリを安全に消去",
+        "最大 50 MiB の暗号化ファイル転送（一時暗号化チャンクのゼロ上書き削除）に対応",
+        "UIA 新着自動読み上げ、Ctrl+L 画面ロック、時限自動ログアウト、簡易疎通診断を搭載"
+      ],
+      "keywords": [
+        "LANメッセンジャー",
+        "P2P",
+        "暗号化",
+        "ゼロ永続化",
+        "ファイル転送",
+        "アクセシビリティ"
+      ],
+      "repoUrl": "https://github.com/NRO256/ZeroHop",
+      "releaseUrl": "https://github.com/NRO256/ZeroHop/releases/latest",
+      "issuesUrl": "https://github.com/NRO256/ZeroHop/issues",
+      "screenshot": "",
+      "screenshotAlt": "",
+      "order": 7
     }
   ]
 }
