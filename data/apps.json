@@ -256,6 +256,39 @@
       "screenshot": "",
       "screenshotAlt": "",
       "order": 7
+    },
+    {
+      "id": "wmk",
+      "name": "Windows Maintenance Kit (WMK)",
+      "shortName": "WMK",
+      "version": "v0.2.0",
+      "category": "system",
+      "categoryLabel": "システム管理",
+      "uiType": "GUI",
+      "os": "Windows 10 / 11 (64bit)",
+      "binaryName": "WMK.exe",
+      "binarySize": "399 KB",
+      "requiresAdmin": true,
+      "permissionLabel": "管理者権限（UAC昇格）",
+      "summary": "SFC・DISM・CHKDSK・クリーンアップ等の Windows システム修復・保守コマンドを、安全かつ分かりやすく実行できるポータブル Win32 GUI ツールです。",
+      "highlights": [
+        "システムファイル修復（SFC / DISM）やディスクチェック等の保守手順を1画面に集約",
+        "処理中の経過時間表示、IFileOpenDialog による保存先選択、ログ案内を強化",
+        "BIZ UD系フォント・セクション見出し・高コントラスト/UIA 読み上げに対応"
+      ],
+      "keywords": [
+        "SFC",
+        "DISM",
+        "メンテナンス",
+        "システム修復",
+        "Windows"
+      ],
+      "repoUrl": "https://github.com/NRO256/wmk",
+      "releaseUrl": "https://github.com/NRO256/wmk/releases/latest",
+      "issuesUrl": "https://github.com/NRO256/wmk/issues",
+      "screenshot": "",
+      "screenshotAlt": "",
+      "order": 8
     }
   ]
 }
